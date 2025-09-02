@@ -19,7 +19,7 @@
   <h1>💧 몽베스트 실시간 최저가</h1>
   <div class="product-list" id="product-list"></div>
   <script>
-    fetch('./products.json')
+    fetch('./products.json?v=' + new Date().getTime())
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById('product-list');
