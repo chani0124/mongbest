@@ -1,7 +1,5 @@
 import json
-from datetime import datetime
 
-# 실제 크롤링 로직은 여기에 구현해야 함 (쿠팡, 다나와 등)
 products = [
     {
         "source": "쿠팡",
