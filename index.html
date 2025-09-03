@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>몽베스트 실시간 최저가</title>
   <style>
     body {
@@ -14,7 +15,7 @@
     }
     h1 {
       text-align: center;
-      color: #2a9d8f;
+      color: #2a98df;
     }
     .product-list {
       display: grid;
@@ -49,7 +50,7 @@
       display: inline-block;
       margin-top: 8px;
       color: #fff;
-      background-color: #2a9d8f;
+      background-color: #2a98df;
       padding: 8px 12px;
       border-radius: 6px;
       text-decoration: none;
@@ -64,9 +65,8 @@
   <h1>몽베스트 실시간 최저가</h1>
   <div class="product-list" id="product-list"></div>
 
-  <!-- JSON 데이터 직접 삽입 -->
-  <script id="product-data" type="application/json">
-    [
+  <script>
+    const products = [
       {
         "name": "몽베스트 생수 2L x 6병",
         "price": "4,900원",
@@ -79,12 +79,8 @@
         "image": "https://img.danawa.com/prod_img/500000/259/592/img/16592259_1.jpg",
         "link": "https://search.shopping.naver.com/gate.nhn?id=16592259"
       }
-    ]
-  </script>
+    ];
 
-  <script>
-    const raw = document.getElementById("product-data").textContent;
-    const products = JSON.parse(raw);
     const list = document.getElementById("product-list");
 
     products.forEach(item => {
