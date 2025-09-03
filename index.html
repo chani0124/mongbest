@@ -1,35 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>몽베스트 가격 비교</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>몽베스트 가격 비교</h1>
   <div id="product-list"></div>
-
-  <script>
-    fetch('./products.json')
-      .then(response => response.json())
-      .then(data => {
-        const list = document.getElementById('product-list');
-        data.products.forEach(product => {
-          const item = document.createElement('div');
-          item.className = 'product-item';
-          item.innerHTML = `
-            <h2>${product.name}</h2>
-            <p>가격: ${product.price}</p>
-            <a href="${product.link}" target="_blank">구매하러 가기</a>
-          `;
-          list.appendChild(item);
-        });
-      })
-      .catch(error => {
-        document.getElementById('product-list').innerText = '상품 정보를 불러올 수 없습니다.';
-        console.error('Error:', error);
-      });
-  </script>
+  <script src="scripts/update.js"></script>
 </body>
 </html>
