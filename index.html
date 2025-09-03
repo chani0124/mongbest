@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>💧 몽베스트 실시간 최저가</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>몽베스트 실시간 최저가</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -61,31 +61,43 @@
   </style>
 </head>
 <body>
-  <h1>💧 몽베스트 실시간 최저가</h1>
+  <h1>몽베스트 실시간 최저가</h1>
   <div class="product-list" id="product-list"></div>
 
-  <script>
-    async function loadProducts() {
-      try {
-        const res = await fetch("products.json");
-        const products = await res.json();
-        const list = document.getElementById("product-list");
-        products.forEach(item => {
-          const el = document.createElement("div");
-          el.className = "product";
-          el.innerHTML = \`
-            <img src="\${item.image}" alt="\${item.name}" />
-            <h3>\${item.name}</h3>
-            <p><strong>가격:</strong> \${item.price}</p>
-            <a href="\${item.link}" target="_blank">구매하러 가기</a>
-          \`;
-          list.appendChild(el);
-        });
-      } catch (err) {
-        console.error("데이터 로딩 오류:", err);
+  <!-- JSON 데이터 직접 삽입 -->
+  <script id="product-data" type="application/json">
+    [
+      {
+        "name": "몽베스트 생수 2L x 6병",
+        "price": "4,900원",
+        "image": "https://img.danawa.com/prod_img/500000/160/485/img/16485160_1.jpg",
+        "link": "https://search.shopping.naver.com/gate.nhn?id=16485160"
+      },
+      {
+        "name": "몽베스트 생수 500ml x 20병",
+        "price": "6,200원",
+        "image": "https://img.danawa.com/prod_img/500000/259/592/img/16592259_1.jpg",
+        "link": "https://search.shopping.naver.com/gate.nhn?id=16592259"
       }
-    }
-    loadProducts();
+    ]
+  </script>
+
+  <script>
+    const raw = document.getElementById("product-data").textContent;
+    const products = JSON.parse(raw);
+    const list = document.getElementById("product-list");
+
+    products.forEach(item => {
+      const el = document.createElement("div");
+      el.className = "product";
+      el.innerHTML = `
+        <img src="${item.image}" alt="${item.name}" />
+        <h3>${item.name}</h3>
+        <p><strong>가격:</strong> ${item.price}</p>
+        <a href="${item.link}" target="_blank">구매하러 가기</a>
+      `;
+      list.appendChild(el);
+    });
   </script>
 </body>
 </html>
