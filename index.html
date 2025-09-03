@@ -1,14 +1,30 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>몽베스트 가격 비교</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mongbest 가격 비교</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>몽베스트 가격 비교</h1>
+  <h1>몽베스트 생수 실시간 가격 비교</h1>
   <div id="product-list"></div>
-  <script src="scripts/update.js"></script>
+
+  <script src="prices.js"></script>
+  <script>
+    const container = document.getElementById("product-list");
+    prices.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h2>${item.site}</h2>
+        <p>${item.title}</p>
+        <p><strong>${item.price}</strong></p>
+        <a href="${item.url}" target="_blank">구매하러 가기</a>
+      `;
+      container.appendChild(card);
+    });
+  </script>
 </body>
 </html>
