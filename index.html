@@ -1,30 +1,121 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mongbest 가격 비교</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>몽베스트 생수 최저가 비교 | mongbest</title>
+  <meta name="description" content="몽베스트 생수(2L x 12 등) 가격을 쿠팡, 다나와, 11번가, 네이버쇼핑, G마켓, SSG에서 한 번에 비교하고 최저가로 빠르게 구매하세요." />
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>💧</text></svg>">
+  <meta property="og:title" content="몽베스트 생수 최저가 비교" />
+  <meta property="og:description" content="쿠팡/네이버/G마켓/SSG/11번가/다나와 가격 한 눈에!" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mongbest.com" />
 </head>
 <body>
-  <h1>몽베스트 생수 실시간 가격 비교</h1>
-  <div id="product-list"></div>
+  <header class="site-header">
+    <div class="wrap">
+      <div class="brand">mongbest <span class="drop">💧</span></div>
+      <nav class="nav">
+        <a href="#how">사용법</a>
+        <a href="#legal">알림</a>
+      </nav>
+    </div>
+  </header>
 
+  <main class="wrap">
+    <section class="hero">
+      <h1>몽베스트 생수 <span class="highlight">최저가 비교</span></h1>
+      <p class="sub">여섯 곳 가격을 즉시 비교하고, 가장 싼 곳으로 바로 이동!</p>
+    </section>
+
+    <section class="controls">
+      <div class="row">
+        <div class="left">
+          <label class="switch">
+            <input id="includeShip" type="checkbox" checked />
+            <span>배송비 포함해서 비교</span>
+          </label>
+        </div>
+        <div class="right">
+          <button id="refresh" class="ghost">새로고침</button>
+        </div>
+      </div>
+      <div class="meta">
+        <div>상품: <strong id="productName">몽베스트 생수</strong></div>
+        <div>업데이트: <strong id="updated">-</strong></div>
+      </div>
+    </section>
+
+    <section class="table-section">
+      <div class="table-wrap">
+        <table class="price-table" aria-label="가격 비교 표">
+          <thead>
+            <tr>
+              <th>판매처</th>
+              <th>가격</th>
+              <th>배송비</th>
+              <th>최종가</th>
+              <th>배송</th>
+              <th>구매</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p class="hint">* 가격/배송비/도착일은 판매처 사정에 따라 달라질 수 있습니다. 구매 전 판매 페이지에서 꼭 다시 확인하세요.</p>
+    </section>
+
+    <section id="how" class="how">
+      <h2>사용법</h2>
+      <ol>
+        <li>기본값은 <b>배송비 포함 최종가</b> 기준 정렬입니다. (토글로 변경 가능)</li>
+        <li>원하는 판매처의 <b>구매하러 가기</b> 버튼을 누르면 같은 창에서 바로 이동합니다.</li>
+        <li>가격이 이상하면 새로고침(↻) 해보세요.</li>
+      </ol>
+    </section>
+
+    <section id="legal" class="legal">
+      <h2>알림</h2>
+      <ul>
+        <li>표시 가격은 <b>샘플 데이터</b>로 시작합니다. 이후 자동화가 켜지면 3시간마다 갱신됩니다.</li>
+        <li>일부 쇼핑몰은 제휴/크롤링 정책이 있으니, 공식 API·제휴 링크 사용을 권장합니다.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <small>© <span id="year"></span> mongbest.com</small>
+    </div>
+  </footer>
+
+  <!-- 데이터 → 렌더 순서 중요 -->
   <script src="prices.js"></script>
+  <script src="app.js"></script>
+
+  <!-- SEO: 구조화 데이터 (샘플) -->
+  <script type="application/ld+json" id="ldjson"></script>
   <script>
-    const container = document.getElementById("product-list");
-    prices.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <h2>${item.site}</h2>
-        <p>${item.title}</p>
-        <p><strong>${item.price}</strong></p>
-        <a href="${item.url}" target="_blank">구매하러 가기</a>
-      `;
-      container.appendChild(card);
-    });
+    // 간단한 Product + offers 구조화데이터 생성 (샘플)
+    (function(){
+      const d = window.MB_DATA || { sellers: [] };
+      const offers = (d.sellers||[]).map(s=>({
+        "@type": "Offer",
+        "priceCurrency": "KRW",
+        "price": String(s.priceKRW||0),
+        "url": s.url||"",
+        "seller": {"@type":"Organization","name": s.name||""}
+      }));
+      const ld = {
+        "@context":"https://schema.org",
+        "@type":"Product",
+        "name": d.product || "몽베스트 생수",
+        "brand": {"@type":"Brand","name":"몽베스트"},
+        "offers": offers
+      };
+      document.getElementById('ldjson').textContent = JSON.stringify(ld);
+    })();
   </script>
 </body>
 </html>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mongbest.com/sitemap.xml
