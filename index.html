@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>몽베스트 실시간 최저가</title>
+  <style>
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Arial', sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #0077cc;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    #products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      padding: 0;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: 0.2s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .card img {
+      max-width: 100%;
+      height: 180px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+    .card h2 {
+      font-size: 1rem;
+      color: #222;
+      margin: 0.5rem 0 0.2rem;
+      text-align: center;
+    }
+    .card p {
+      margin: 0;
+      color: #0077cc;
+      font-weight: bold;
+    }
+    .card a {
+      margin-top: 0.8rem;
+      color: white;
+      background: #0077cc;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .card a:hover {
+      background: #005fa3;
+    }
+  </style>
+</head>
+<body>
+  <h1>💧 몽베스트 실시간 최저가</h1>
+  <div id="products"></div>
+
+  <script>
+    const data = [
+      {
+        "name": "몽베스트 2L x 6병",
+        "price": "₩3,800",
+        "link": "https://www.example.com/product1",
+        "image": "https://via.placeholder.com/300x180.png?text=Mongbest+2Lx6"
+      },
+      {
+        "name": "몽베스트 500ml x 20병",
+        "price": "₩5,900",
+        "link": "https://www.example.com/product2",
+        "image": "https://via.placeholder.com/300x180.png?text=Mongbest+500mlx20"
+      },
+      {
+        "name": "몽베스트 생수 1.5L x 12병",
+        "price": "₩7,400",
+        "link": "https://www.example.com/product3",
+        "image": "https://via.placeholder.com/300x180.png?text=Mongbest+1.5Lx12"
+      }
+    ];
+
+    const container = document.getElementById("products");
+    data.forEach(product => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" />
+        <h2>${product.name}</h2>
+        <p>${product.price}</p>
+        <a href="${product.link}" target="_blank">구매하러 가기</a>
+      `;
+      container.appendChild(div);
+    });
+  </script>
+</body>
+</html>
