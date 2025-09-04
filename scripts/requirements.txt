@@ -1,5 +1,3 @@
-# 예: 실제 크롤링에 쓰고 싶다면 아래를 추가하세요
-# requests
-# beautifulsoup4
-# lxml
-# playwright
+playwright==1.46.0
+beautifulsoup4==4.12.3
+lxml==5.2.2

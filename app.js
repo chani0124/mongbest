@@ -33,7 +33,13 @@
           <td class="ship">${shipText}</td>
           <td class="final">₩${fmt(final)}</td>
           <td class="deliv">${s.delivery||'-'}</td>
-          <td class="buy"><a class="btn" href="${href}" rel="nofollow" aria-label="${s.name}에서 구매하기">구매하러 가기</a></td>
+          <td class="buy">
+            <a class="btn"
+               href="${href}"
+               target="_blank"
+               rel="noopener nofollow"
+               aria-label="${s.name}에서 구매하기">구매하러 가기</a>
+          </td>
         </tr>`;
     }).join('');
   }

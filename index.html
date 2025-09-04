@@ -70,7 +70,7 @@
       <h2>사용법</h2>
       <ol>
         <li>기본값은 <b>배송비 포함 최종가</b> 기준 정렬입니다. (토글로 변경 가능)</li>
-        <li>원하는 판매처의 <b>구매하러 가기</b> 버튼을 누르면 같은 창에서 바로 이동합니다.</li>
+        <li>원하는 판매처의 <b>구매하러 가기</b> 버튼을 누르면 새 창에서 바로 이동합니다.</li>
         <li>가격이 이상하면 새로고침(↻) 해보세요.</li>
       </ol>
     </section>
@@ -78,8 +78,8 @@
     <section id="legal" class="legal">
       <h2>알림</h2>
       <ul>
-        <li>표시 가격은 <b>샘플 데이터</b>로 시작합니다. 이후 자동화가 켜지면 3시간마다 갱신됩니다.</li>
-        <li>일부 쇼핑몰은 제휴/크롤링 정책이 있으니, 공식 API·제휴 링크 사용을 권장합니다.</li>
+        <li>가격은 자동화로 3시간마다 갱신됩니다. (사이트 정책/차단 등으로 일부 실패할 수 있음)</li>
+        <li>정확한 가격·조건은 판매 페이지에서 다시 확인해주세요.</li>
       </ul>
     </section>
   </main>
@@ -90,14 +90,11 @@
     </div>
   </footer>
 
-  <!-- 데이터 → 렌더 순서 중요 -->
   <script src="prices.js"></script>
   <script src="app.js"></script>
 
-  <!-- SEO: 구조화 데이터 (샘플) -->
   <script type="application/ld+json" id="ldjson"></script>
   <script>
-    // 간단한 Product + offers 구조화데이터 생성 (샘플)
     (function(){
       const d = window.MB_DATA || { sellers: [] };
       const offers = (d.sellers||[]).map(s=>({
