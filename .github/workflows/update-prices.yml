@@ -1,37 +1,23 @@
 name: Update prices (every 3h)
-
 on:
   schedule:
     - cron: "0 */3 * * *"
   workflow_dispatch: {}
-
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    permissions: {contents: write}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Upgrade pip & install deps
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install deps
         run: |
           python -m pip install --upgrade pip
           pip install -r scripts/requirements.txt
-
-      - name: Install Playwright browsers
-        run: |
           python -m playwright install --with-deps chromium
-
       - name: Run scraper
-        run: |
-          python scripts/scrape.py
-
+        run: python scripts/scrape.py
       - name: Commit & push if changed
         run: |
           if ! git diff --quiet -- prices.js; then
