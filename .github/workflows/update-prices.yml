@@ -11,24 +11,26 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
-      - name: Install Python deps
+      - name: Upgrade pip & install deps
         run: |
           python -m pip install --upgrade pip
           pip install -r scripts/requirements.txt
 
-      - name: Setup Playwright (with dependencies)
-        uses: microsoft/playwright-github-action@v1
-        with:
-          with-deps: true
+      - name: Install Playwright browsers
+        run: |
+          python -m playwright install --with-deps chromium
 
       - name: Run scraper
-        run: python scripts/scrape.py
+        run: |
+          python scripts/scrape.py
 
       - name: Commit & push if changed
         run: |
