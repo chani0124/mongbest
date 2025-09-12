@@ -6,7 +6,15 @@
 html,body{margin:0;padding:0;background:radial-gradient(1000px 600px at 20% -10%, #0b2447 0%, rgba(11,36,71,0) 60%), var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',Segoe UI,Roboto,sans-serif}
 .wrap{max-width:1100px;margin:0 auto;padding:16px}
 .hero-bg{position:fixed;inset:0;z-index:-1;opacity:.18;background:radial-gradient(1200px 800px at 90% -20%, #0ea5e9 0%, rgba(14,165,233,0) 60%)}
-.hero-bg img{position:absolute;bottom:-20px;left:0;width:100%;filter:blur(0.6px) drop-shadow(0 0 16px rgba(91,212,255,.25))}
+.hero-bg{
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: 
+    linear-gradient(180deg, rgba(6,8,13,.45), rgba(6,8,13,.2)), /* 글자 가독성용 오버레이 */
+    url("assets/hero-bg.jpg") center/cover no-repeat;
+}
+
 .site-header{background:rgba(8,12,20,.6);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:50}
 .site-header .wrap{display:flex;align-items:center;justify-content:space-between}
 .brand{font-weight:900;text-decoration:none;color:var(--text);letter-spacing:.4px}
