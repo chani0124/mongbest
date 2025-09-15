@@ -1,84 +1,91 @@
 (function(){
-  // ====== 데이터/DOM ======
+  // ===== 데이터/DOM =====
   const data = window.MB_DATA || { brands: [] };
 
+  const byId = (s)=> document.querySelector(s);
+  const includeShipEl = byId('#includeShip');
+  const updatedEl = byId('#updated');
+  const variantEl = byId('#variant');
+  const grid = byId('#brandGrid');
+  const search = byId('#search');
+
   const fmt = (n)=> new Intl.NumberFormat('ko-KR').format(n||0);
-  const includeShipEl = document.querySelector('#includeShip');
-  const updatedEl = document.querySelector('#updated');
-  const variantEl = document.querySelector('#variant');
-  const grid = document.querySelector('#brandGrid');
-  const search = document.querySelector('#search');
-  const yearEl = document.querySelector('#year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   if (updatedEl && data.lastUpdated){
     try {
-      updatedEl.textContent = new Date(data.lastUpdated)
-        .toLocaleString('ko-KR', { timeZone:'Asia/Seoul' });
-    } catch(e){
-      updatedEl.textContent = data.lastUpdated;
-    }
+      updatedEl.textContent = new Date(data.lastUpdated).toLocaleString('ko-KR',{ timeZone:'Asia/Seoul' });
+    } catch(e){ updatedEl.textContent = data.lastUpdated; }
   }
   if (variantEl && data.variant) variantEl.textContent = data.variant;
 
-  // ====== 제휴 링크 설정 (혼합 전략) ======
-  // 1) 글로벌 폴백: 어떤 상황이든 최소한 이 링크로 수익화
+  // ===== 수익화 설정 (업그레이드 혼합 전략) =====
+  // 0) 전역(폴백) 제휴 링크 — chani가 알려준 코드
   const GLOBAL_AFFIL = "https://link.coupang.com/a/cQZHEI";
 
-  // 2) 판매처/브랜드별 맵 (필요 시 확장)
-  //    예: 쿠팡 외에 11번가/네이버 제휴키 생기면 여기에 추가하면 자동 적용
-  const SELLER_AFFIL_MAP = {
-    // scraper의 sellers[].id 기준
-    // "coupang": "https://link.coupang.com/a/XXXXXX",
-    "coupang": "https://link.coupang.com/a/cQZHEI",
-  };
-
+  // 1) 브랜드별 제휴 링크(있으면 우선 적용) — 필요할 때 값만 넣으면 자동 반영
+  //    예시는 전부 동일 링크로 시작. 이후 각 브랜드별로 쿠팡 파트너스에서 생성한 링크로 교체해줘.
   const BRAND_AFFIL_MAP = {
-    // MB_DATA 상의 brand id 기준 (원하면 추가)
-    // "mongbest": "https://link.coupang.com/a/....",
+    "mongbest": "https://link.coupang.com/a/cQZHEI",
+    "samdasoo": "https://link.coupang.com/a/cQZHEI",
+    "baeksansu": "https://link.coupang.com/a/cQZHEI",
+    "icysis": "https://link.coupang.com/a/cQZHEI",
+    "sparkle": "https://link.coupang.com/a/cQZHEI",
+    "crystal-geyser": "https://link.coupang.com/a/cQZHEI"
   };
 
-  // 3) 실제 버튼에 들어갈 링크를 결정
-  function getAffiliateLink(sellerItem, brandObj){
-    // 3-1) 판매처별 우선
-    if (sellerItem && sellerItem.id && SELLER_AFFIL_MAP[sellerItem.id]) {
-      return SELLER_AFFIL_MAP[sellerItem.id];
-    }
-    // 3-2) 브랜드별 우선 (원하면 사용)
+  // 2) 판매처 도메인 인식(출처 보정용)
+  const DOMAIN_FROM_URL = (u)=>{
+    try{ return new URL(u).hostname.replace(/^www\./,''); } catch(e){ return ""; }
+  };
+
+  // 3) 메인 버튼에 쓸 제휴 링크 결정
+  function decideAffiliateLink(brandObj, sellerItem){
+    // a) 브랜드별 링크 우선
     if (brandObj && brandObj.id && BRAND_AFFIL_MAP[brandObj.id]) {
-      return BRAND_AFFIL_MAP[brandObj.id];
+      // 간단 추적용으로 brand id를 붙여도 무해 (쿠팡 파라미터 무시되어도 문제 없음)
+      return BRAND_AFFIL_MAP[brandObj.id] + "?src=mongbest&brand=" + encodeURIComponent(brandObj.id);
     }
-    // 3-3) 위가 없으면 글로벌
-    return GLOBAL_AFFIL;
+    // b) 전역 폴백
+    return GLOBAL_AFFIL + "?src=mongbest&brand=" + encodeURIComponent(brandObj?.id || "unknown");
   }
 
-  // ====== 가격 계산/정렬 ======
+  // ===== 가격 계산/정렬 =====
   function finalPrice(s){
     const ship = includeShipEl?.checked ? (s.shippingKRW||0) : 0;
     return (s.priceKRW||0) + ship;
   }
 
-  // ====== UI ======
+  // ===== 행/카드 렌더링 =====
   function rowHTML(s, brand){
+    const outSrc = s.url || "";
+    const domain = DOMAIN_FROM_URL(outSrc);
+    const srcLabel = domain ? domain : (s.name || '출처');
+
     const ship = (s.shippingKRW && s.shippingKRW>0) ? `₩${fmt(s.shippingKRW)}` : '무료';
-    const sellerUrl = s.url || "";                          // 원 판매처 최저가 상세 페이지
-    const affUrl = getAffiliateLink(s, brand) || sellerUrl; // 메인 버튼은 제휴 링크 우선
+
+    // 메인: 제휴 링크 (브랜드별 맵 → 없으면 전역)
+    const affUrl = decideAffiliateLink(brand, s);
     const safe = (u)=> (u || "#");
 
     return `
       <tr>
-        <td class="seller">${s.name || '-'}</td>
+        <td class="seller">${srcLabel}</td>
         <td>₩${fmt(s.priceKRW || 0)}</td>
         <td>${ship}</td>
         <td class="final">₩${fmt(finalPrice(s))}</td>
         <td>${s.delivery || '-'}</td>
         <td class="buy">
-          <!-- 메인: 제휴 링크로 새창 이동(수익화) -->
-          <a class="btn" href="${safe(affUrl)}" target="_blank" rel="noopener nofollow">구매하러 가기</a>
-          <!-- 보조: 실제 스크랩 원 판매처 상세(신뢰/편의) -->
-          ${sellerUrl ? `<div style="margin-top:6px;font-size:12px">
-            <a href="${safe(sellerUrl)}" target="_blank" rel="noopener nofollow" class="muted">원 판매처 상세보기 →</a>
-          </div>` : ``}
+          <a class="btn" href="${safe(affUrl)}" target="_blank" rel="noopener sponsored nofollow">구매하러 가기</a>
+          ${outSrc ? `<div style="margin-top:6px;font-size:12px">
+            <a href="${safe(outSrc)}" target="_blank" rel="noopener nofollow" class="muted">원 판매처 상세보기 →</a>
+            <span aria-hidden="true" style="color:#2b3b52"> · </span>
+            <a href="${GLOBAL_AFFIL + '?src=mongbest&search=' + encodeURIComponent((brand?.name||'')+' 2L 12')}"
+               target="_blank" rel="noopener sponsored nofollow" class="muted">쿠팡에서 검색</a>
+          </div>` : `
+          <div style="margin-top:6px;font-size:12px">
+            <a href="${GLOBAL_AFFIL + '?src=mongbest&search=' + encodeURIComponent((brand?.name||'')+' 2L 12')}"
+               target="_blank" rel="noopener sponsored nofollow" class="muted">쿠팡에서 검색</a>
+          </div>`}
         </td>
       </tr>
     `;
@@ -94,13 +101,13 @@
       <article class="card">
         <div class="head">
           <div class="brandname">${b.name}</div>
-          <div class="updated">판매처 ${sellers.length}개</div>
+          <div class="updated">출처 ${sellers.length}개</div>
         </div>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>판매처</th>
+                <th>출처</th>
                 <th>가격</th>
                 <th>배송비</th>
                 <th>최종가</th>
