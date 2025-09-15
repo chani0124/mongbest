@@ -8,7 +8,7 @@
   <!-- SEO -->
   <meta name="description" content="몽베스트 · 삼다수 · 백산수 · 아이시스 · 스파클 등 생수 브랜드별 최저가를 한 번에 비교하고, 최저가 상품 상세 페이지로 바로 이동하세요." />
   <link rel="canonical" href="https://mongbest.com/" />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index,follow" />
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
@@ -22,10 +22,10 @@
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>💧</text></svg>">
 
-  <!-- 캐시 깨기용 버전 쿼리 (숫자만 올리면 됨) -->
-  <link rel="stylesheet" href="style.css?v=6" />
+  <!-- 캐시 깨기용 버전 쿼리 -->
+  <link rel="stylesheet" href="style.css?v=7" />
 
-  <!-- 구조화 데이터 (사이트/검색엔진 신뢰도 ↑) -->
+  <!-- 구조화 데이터 -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -38,17 +38,18 @@
   </script>
 </head>
 <body>
-<aside class="wrap" style="max-width:1100px; padding:10px 16px 0;">
-  <div role="note" aria-label="제휴 고지"
-       style="font-size:13px; color:#8da2c0; background:rgba(12,20,32,0.65); 
-              border:1px solid rgba(255,255,255,0.08); padding:10px 14px; 
-              border-radius:8px; line-height:1.5;">
-    <strong style="color:#5bd4ff;">광고 고지</strong> · 본 사이트의 일부 링크는 제휴 링크이며,  
-    <b>이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</b>
-  </div>
-</aside>
+  <!-- 상단 광고/제휴 고지 (디자인톤 맞춘 은은한 스타일) -->
+  <aside class="wrap" style="max-width:1100px; padding:10px 16px 0;">
+    <div role="note" aria-label="제휴 고지"
+         style="font-size:13px; color:#8da2c0; background:rgba(12,20,32,0.65);
+                border:1px solid rgba(255,255,255,0.08); padding:10px 14px;
+                border-radius:8px; line-height:1.5;">
+      <strong style="color:#5bd4ff;">광고 고지</strong> · 본 사이트의 일부 링크는 제휴 링크이며,
+      <b>이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</b>
+    </div>
+  </aside>
 
-  <!-- ===== 배경 레이어 (이미지 경로는 style.css에서 설정) ===== -->
+  <!-- 배경 레이어 (이미지는 style.css에서 설정) -->
   <div class="hero-bg" aria-hidden="true"></div>
 
   <header class="site-header" role="banner">
@@ -124,19 +125,19 @@
     </div>
   </footer>
 
-  <!-- 데이터 & 앱 스크립트 (캐시깨기용 v 파라미터는 필요시 숫자↑) -->
+  <!-- 데이터 & 앱 스크립트 (버전 숫자만 올리면 캐시 즉시 반영) -->
   <script src="data/prices.js?v=2"></script>
   <script src="app.js?v=2"></script>
 
-  <!-- 링크 안전/표시 보완: 제휴 도메인에 sponsored/noopener/nofollow 적용 -->
+  <!-- 제휴 도메인 자동표시/보안 태그 -->
   <script>
   (function(){
     const AFFIL_DOMAINS = [
-      'link.coupang.com',
-      // 여기에 추가: 'link.11st.co.kr', 'adcr.naver.com' 등
+      'link.coupang.com'
+      // 필요 시 추가: 'link.11st.co.kr', 'adcr.naver.com' 등
     ];
     const isAffil = (u) => {
-      try { const h = new URL(u).hostname; return AFFIL_DOMAINS.some(d=> h.endsWith(d)); }
+      try { return AFFIL_DOMAINS.some(d => new URL(u).hostname.endsWith(d)); }
       catch(e){ return false; }
     };
     for (const a of document.querySelectorAll('a[href]')) {
@@ -146,8 +147,11 @@
         ['sponsored','nofollow','noopener'].forEach(x=> rel.add(x));
         a.setAttribute('rel', Array.from(rel).join(' '));
       }
-      a.setAttribute('target','_blank'); // 새창 유지
+      a.setAttribute('target','_blank'); // 새창 이동 고정
     }
+    // 연도 표기
+    const y = document.querySelector('#year');
+    if (y) y.textContent = new Date().getFullYear();
   })();
   </script>
 
