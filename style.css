@@ -14,13 +14,12 @@ html,body{
 
 /* ===== 배경 이미지 레이어 ===== */
 .hero-bg{
-  position: fixed;
-  inset: 0;
-  z-index: 0;              /* 사이트 배경으로만 */
-  pointer-events: none;    /* 클릭 방해 안 함 */
+  position: fixed; inset:0; z-index:0; pointer-events:none;
   background:
-    linear-gradient(180deg, rgba(6,8,13,.45), rgba(6,8,13,.20)), /* 글자 가독성용 오버레이 */
-    url("assets/hero-bg.jpg") center/cover no-repeat;           /* 업로드한 배경 이미지 */
+    linear-gradient(180deg, rgba(6,8,13,.45), rgba(6,8,13,.20)),
+    url("assets/hero-bg.png") center/cover no-repeat; /* ← PNG 로 바꿈 */
+}
+           /* 업로드한 배경 이미지 */
 }
 
 .site-header{background:rgba(8,12,20,.6);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:50}
