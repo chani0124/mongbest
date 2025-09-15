@@ -4,18 +4,56 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>생수 최저가 비교 — mongbest</title>
-  <meta name="description" content="삼다수 · 몽베스트 · 백산수 · 아이시스 · 스파클 등 생수 브랜드별 최저가를 한 번에 비교하고, 최저가 상품 상세 페이지로 바로 이동하세요." />
+
+  <!-- SEO -->
+  <meta name="description" content="몽베스트 · 삼다수 · 백산수 · 아이시스 · 스파클 등 생수 브랜드별 최저가를 한 번에 비교하고, 최저가 상품 상세 페이지로 바로 이동하세요." />
+  <link rel="canonical" href="https://mongbest.com/" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="mongbest" />
+  <meta property="og:title" content="생수 최저가 비교 — mongbest" />
+  <meta property="og:description" content="생수 브랜드별 최저가를 실시간 비교하고, 상세 페이지로 바로 이동하세요." />
+  <meta property="og:url" content="https://mongbest.com/" />
+  <meta property="og:image" content="https://mongbest.com/assets/og-thumb.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>💧</text></svg>">
-  <link rel="preload" href="assets/hero-waves.svg" as="image" />
-  <link rel="stylesheet" href="style.css?v=5">
+
+  <!-- 캐시 깨기용 버전 쿼리 (숫자만 올리면 됨) -->
+  <link rel="stylesheet" href="style.css?v=6" />
+
+  <!-- 구조화 데이터 (사이트/검색엔진 신뢰도 ↑) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"mongbest",
+    "url":"https://mongbest.com/",
+    "description":"생수 브랜드 최저가 비교",
+    "inLanguage":"ko"
+  }
+  </script>
 </head>
 <body>
-  <div class="hero-bg"><img src="assets/hero-waves.svg" alt="" aria-hidden="true" /></div>
+  <!-- ===== 배경 레이어 (이미지 경로는 style.css에서 설정) ===== -->
+  <div class="hero-bg" aria-hidden="true"></div>
 
-  <header class="site-header">
+  <!-- 상단 알림: 광고/제휴 고지 (항상 표시) -->
+  <aside class="wrap" style="max-width:1100px; padding:8px 16px 0;">
+    <div role="note" aria-label="제휴 고지"
+         style="font-size:13px; color:#8da2c0; line-height:1.5;">
+      <strong>광고 고지</strong> · 본 사이트의 일부 링크는 제휴 링크이며,
+      <b>이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</b>
+    </div>
+  </aside>
+
+  <header class="site-header" role="banner">
     <div class="wrap">
-      <a class="brand" href="/">mongbest <span class="drop">water</span></a>
-      <nav class="nav">
+      <a class="brand" href="/" aria-label="mongbest 메인으로">mongbest <span class="drop">💧</span></a>
+      <nav class="nav" role="navigation" aria-label="주요 메뉴">
         <a href="#how">사용법</a>
         <a href="#about">브랜드</a>
         <a href="#legal">알림</a>
@@ -23,60 +61,97 @@
     </div>
   </header>
 
-  <main class="wrap">
-    <section class="hero">
-      <h1>생수 <span class="highlight">브랜드별 최저가</span> 비교</h1>
+  <main class="wrap" role="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title">생수 <span class="highlight">브랜드별 최저가</span> 비교</h1>
       <p class="sub">2L × 12 기준 · 배송비 포함 최종가 정렬 · <b>최저가 상품 상세 페이지</b>로 바로 이동</p>
-      <div class="controls">
+
+      <div class="controls" aria-label="비교 옵션">
         <div class="row">
           <div class="left">
             <label class="switch">
-              <input id="includeShip" type="checkbox" checked>
+              <input id="includeShip" type="checkbox" checked aria-label="배송비 포함해서 비교">
               <span>배송비 포함해서 비교</span>
             </label>
           </div>
           <div class="right">
-            <input id="search" placeholder="브랜드 검색 (예: 삼다수, 몽베스트)">
-            <button id="refresh" class="ghost">↻ 새로고침</button>
+            <input id="search" placeholder="브랜드 검색 (예: 삼다수, 몽베스트)" aria-label="브랜드 검색">
+            <button id="refresh" class="ghost" aria-label="새로고침">↻ 새로고침</button>
           </div>
         </div>
-        <div class="meta">
+        <div class="meta" role="status" aria-live="polite">
           <div>기준 규격: <b id="variant">2L × 12</b></div>
           <div>업데이트: <b id="updated">-</b></div>
         </div>
       </div>
     </section>
 
-    <section class="grid" id="brandGrid"></section>
+    <!-- 브랜드 카드 그리드 -->
+    <section class="grid" id="brandGrid" aria-label="브랜드별 최저가 카드"></section>
 
-    <section id="how" class="how">
-      <h2>사용법</h2>
+    <section id="how" class="how" aria-labelledby="how-title">
+      <h2 id="how-title">사용법</h2>
       <ol>
         <li>기본 정렬은 <b>상품가 + 배송비</b> 입니다.</li>
-        <li><b>구매하러 가기</b> 버튼은 새 창에서 상품 상세 페이지로 열립니다.</li>
+        <li>큰 파란 <b>구매하러 가기</b> 버튼은 제휴 링크(쿠팡 등)로 새 창에서 열립니다.</li>
+        <li>아래 <b>원 판매처 상세보기</b> 링크로 실제 상세 페이지를 확인할 수 있습니다.</li>
         <li>가격이 이상하면 새로고침(↻) 하세요.</li>
       </ol>
     </section>
 
-    <section id="about" class="about">
-      <h2>포함 브랜드</h2>
+    <section id="about" class="about" aria-labelledby="brand-title">
+      <h2 id="brand-title">포함 브랜드</h2>
       <p>몽베스트, 삼다수, 백산수, 아이시스, 스파클, 크리스탈가이저</p>
     </section>
 
-    <section id="legal" class="legal">
-      <h2>알림</h2>
+    <section id="legal" class="legal" aria-labelledby="legal-title">
+      <h2 id="legal-title">알림</h2>
       <ul>
         <li>사이트 구조 변경/차단으로 일부 누락될 수 있습니다.</li>
-        <li>정확도를 위해 <b>공식 제휴 API</b> 전환 권장.</li>
+        <li>정확도를 위해 <b>공식 제휴 API</b> 전환을 권장합니다.</li>
+        <li><b>이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</b></li>
       </ul>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="wrap"><small>© <span id="year"></span> mongbest.com</small></div>
+  <footer class="site-footer" role="contentinfo">
+    <div class="wrap">
+      <small>© <span id="year"></span> mongbest.com</small>
+      <small class="muted" style="margin-left:16px">
+        제휴 고지: 본 사이트의 일부 링크는 제휴 링크이며, 구매 시 수수료가 발생할 수 있습니다.
+      </small>
+    </div>
   </footer>
 
-  <script src="data/prices.js"></script>
-  <script src="app.js"></script>
+  <!-- 데이터 & 앱 스크립트 (캐시깨기용 v 파라미터는 필요시 숫자↑) -->
+  <script src="data/prices.js?v=2"></script>
+  <script src="app.js?v=2"></script>
+
+  <!-- 링크 안전/표시 보완: 제휴 도메인에 sponsored/noopener/nofollow 적용 -->
+  <script>
+  (function(){
+    const AFFIL_DOMAINS = [
+      'link.coupang.com',
+      // 여기에 추가: 'link.11st.co.kr', 'adcr.naver.com' 등
+    ];
+    const isAffil = (u) => {
+      try { const h = new URL(u).hostname; return AFFIL_DOMAINS.some(d=> h.endsWith(d)); }
+      catch(e){ return false; }
+    };
+    for (const a of document.querySelectorAll('a[href]')) {
+      const href = a.getAttribute('href');
+      if (isAffil(href)) {
+        const rel = new Set((a.getAttribute('rel')||'').split(/\s+/).filter(Boolean));
+        ['sponsored','nofollow','noopener'].forEach(x=> rel.add(x));
+        a.setAttribute('rel', Array.from(rel).join(' '));
+      }
+      a.setAttribute('target','_blank'); // 새창 유지
+    }
+  })();
+  </script>
+
+  <noscript>
+    이 사이트는 자바스크립트가 필요합니다. 브라우저 설정에서 JavaScript를 활성화해주세요.
+  </noscript>
 </body>
 </html>
