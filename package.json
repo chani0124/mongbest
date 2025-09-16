@@ -1,0 +1,11 @@
+{
+  "name": "mongbest",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "update:prices": "node scripts/scrape-coupang.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.47.0"
+  }
+}
