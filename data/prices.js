@@ -11,7 +11,7 @@ window.MB_DATA = {
           url: "https://link.coupang.com/a/cQ9CKO",
           priceKRW: 8900,
           shippingKRW: 0,
-          delivery: "일반"
+          delivery: "무료"
         }
       ]
     },
@@ -24,7 +24,7 @@ window.MB_DATA = {
           url: "https://link.coupang.com/a/cRajbw",
           priceKRW: 12960,
           shippingKRW: 0,
-          delivery: "일반"
+          delivery: "무료"
         }
       ]
     },
@@ -37,7 +37,7 @@ window.MB_DATA = {
           url: "https://link.coupang.com/a/cQ95Bd",
           priceKRW: 12000,
           shippingKRW: 0,
-          delivery: "일반"
+          delivery: "무료"
         }
       ]
     },
@@ -50,7 +50,7 @@ window.MB_DATA = {
           url: "https://link.coupang.com/a/cRagPq",
           priceKRW: 9130,
           shippingKRW: 0,
-          delivery: "일반"
+          delivery: "무료"
         }
       ]
     },
@@ -63,7 +63,7 @@ window.MB_DATA = {
           url: "https://link.coupang.com/a/cQ9FQR",
           priceKRW: 6990,
           shippingKRW: 0,
-          delivery: "일반"
+          delivery: "무료"
         }
       ]
     },
@@ -76,7 +76,7 @@ window.MB_DATA = {
           url: "https://link.coupang.com/a/cQ9HDG",
           priceKRW: 23490, // 예시값 (쿠팡 실제가와 맞추려면 수동 수정)
           shippingKRW: 0,
-          delivery: "일반"
+          delivery: "무료"
         }
       ]
     }
