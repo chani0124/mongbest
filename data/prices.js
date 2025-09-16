@@ -1,1 +1,84 @@
-window.MB_DATA = {"lastUpdated": "2025-09-16T12:25:37.451649+09:00", "variant": "2L × 12", "brands": [{"id": "mongbest", "name": "몽베스트", "sellers": [{"id": "danawa", "name": "다나와", "url": "https://prod.danawa.com/bridge/go_link_goods.php?cate_c1=46803&cate_c2=46819&cate_c3=56982&cate_c4=0&cmpny_c=TP40F&link_prod_c=I26514425892&keyword=%EB%AA%BD%EB%B2%A0%EC%8A%A4%ED%8A%B8+2L+12&r=17579931395048&cate=1623153", "priceKRW": 5500, "shippingKRW": 0, "delivery": "일반"}]}, {"id": "samdasu", "name": "삼다수", "sellers": [{"id": "danawa", "name": "다나와", "url": "https://prod.danawa.com/bridge/go_link_goods.php?cate_c1=46803&cate_c2=46819&cate_c3=56982&cate_c4=0&cmpny_c=EE128&link_prod_c=3302884776&keyword=%EC%82%BC%EB%8B%A4%EC%88%98+2L+12&r=17579931581959&cate=1623153", "priceKRW": 8370, "shippingKRW": 0, "delivery": "일반"}]}, {"id": "baeksansu", "name": "백산수", "sellers": [{"id": "danawa", "name": "다나와", "url": "https://prod.danawa.com/bridge/go_link_goods.php?cate_c1=46803&cate_c2=46819&cate_c3=56982&cate_c4=0&cmpny_c=TH201&link_prod_c=4591435039&keyword=%EB%B0%B1%EC%82%B0%EC%88%98+2L+12&r=17579931712210&cate=1623153", "priceKRW": 7940, "shippingKRW": 0, "delivery": "일반"}]}, {"id": "icisis", "name": "아이시스", "sellers": [{"id": "danawa", "name": "다나와", "url": "https://prod.danawa.com/bridge/go_link_goods.php?cate_c1=46803&cate_c2=46819&cate_c3=56982&cate_c4=0&cmpny_c=ED903&link_prod_c=2676993826&keyword=%EC%95%84%EC%9D%B4%EC%8B%9C%EC%8A%A4+2L+12&r=17579931847736&cate=1623153", "priceKRW": 11340, "shippingKRW": 0, "delivery": "일반"}]}, {"id": "sparkle", "name": "스파클", "sellers": [{"id": "danawa", "name": "다나와", "url": "https://prod.danawa.com/bridge/go_link_goods.php?cate_c1=46803&cate_c2=46819&cate_c3=56982&cate_c4=0&cmpny_c=EE715&link_prod_c=E235274566&keyword=%EC%8A%A4%ED%8C%8C%ED%81%B4+2L+12&r=17579931988285&cate=1623153", "priceKRW": 2700, "shippingKRW": 0, "delivery": "일반"}]}, {"id": "crystal", "name": "크리스탈가이저", "sellers": []}]};
+window.MB_DATA = {
+  lastUpdated: "2025-09-16T12:00:00.000Z", // 업데이트 시간
+  variant: "2L × 12",
+  brands: [
+    {
+      id: "mongbest",
+      name: "몽베스트",
+      sellers: [
+        {
+          name: "coupang",
+          url: "https://link.coupang.com/a/cQ9CKO",
+          priceKRW: 5500,
+          shippingKRW: 0,
+          delivery: "일반"
+        }
+      ]
+    },
+    {
+      id: "samdasoo",
+      name: "삼다수",
+      sellers: [
+        {
+          name: "coupang",
+          url: "https://link.coupang.com/a/cRajbw",
+          priceKRW: 8370,
+          shippingKRW: 0,
+          delivery: "일반"
+        }
+      ]
+    },
+    {
+      id: "baeksansu",
+      name: "백산수",
+      sellers: [
+        {
+          name: "coupang",
+          url: "https://link.coupang.com/a/cQ95Bd",
+          priceKRW: 7940,
+          shippingKRW: 0,
+          delivery: "일반"
+        }
+      ]
+    },
+    {
+      id: "icysis",
+      name: "아이시스",
+      sellers: [
+        {
+          name: "coupang",
+          url: "https://link.coupang.com/a/cRagPq",
+          priceKRW: 11340,
+          shippingKRW: 0,
+          delivery: "일반"
+        }
+      ]
+    },
+    {
+      id: "sparkle",
+      name: "스파클",
+      sellers: [
+        {
+          name: "coupang",
+          url: "https://link.coupang.com/a/cQ9FQR",
+          priceKRW: 2700,
+          shippingKRW: 0,
+          delivery: "일반"
+        }
+      ]
+    },
+    {
+      id: "evian",
+      name: "에비앙 500ml × 24",
+      sellers: [
+        {
+          name: "coupang",
+          url: "https://link.coupang.com/a/cQ9HDG",
+          priceKRW: 19800, // 예시값 (쿠팡 실제가와 맞추려면 수동 수정)
+          shippingKRW: 0,
+          delivery: "일반"
+        }
+      ]
+    }
+  ]
+};
