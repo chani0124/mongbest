@@ -1,373 +1,148 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>몽베스트 실시간 가격 비교 (수동版)</title>
-  <meta name="description" content="몽베스트 생수 가격 비교 – 쿠팡, 다나와, 11번가, 네이버쇼핑, G마켓, SSG" />
-  <style>
-    :root{
-      --bg:#0b0e13;
-      --card:#121722;
-      --muted:#8b93a7;
-      --text:#e8ecf3;
-      --brand:#4aa8ff;
-      --ok:#19c37d;
-      --warn:#ffd166;
-      --danger:#ff5c5c;
-      --stroke:#1c2433;
-      --radius:18px;
-      --shadow:0 6px 24px rgba(0,0,0,.25);
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family: ui-sans-serif, system-ui, -apple-system, "Pretendard", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";}
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;display:block}
-    button{cursor:pointer}
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>생수 최저가 비교 — mongbest</title>
 
-    /* Header */
-    .wrap{max-width:1100px;margin:0 auto;padding:16px}
-    .nav{
-      position:sticky;top:0;z-index:50;
-      backdrop-filter:saturate(150%) blur(8px);
-      background:rgba(11,14,19,.7);
-      border-bottom:1px solid var(--stroke);
-    }
-    .nav-inner{display:flex;align-items:center;gap:12px;justify-content:space-between}
-    .logo{display:flex;align-items:center;gap:10px}
-    .logo-badge{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#62b0ff, #8ce0ff 60%, #d7f6ff);box-shadow:0 2px 10px rgba(98,176,255,.3)}
-    .brand{font-weight:800;letter-spacing:.2px}
-    .tools{display:flex;align-items:center;gap:8px}
-    .chip{
-      padding:8px 12px;border:1px solid var(--stroke);border-radius:999px;line-height:1;background:rgba(255,255,255,.02);color:var(--muted);font-size:13px;
-    }
-    .toggle{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:10px 14px;border-radius:999px;border:1px solid var(--stroke);background:var(--card);color:var(--text);
-      box-shadow:var(--shadow);
-      font-size:14px
-    }
-    .toggle input{appearance:none;width:34px;height:20px;border-radius:999px;background:#2a3446;position:relative;outline:none;transition:.2s}
-    .toggle input:after{content:"";position:absolute;left:3px;top:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.2s}
-    .toggle input:checked{background:linear-gradient(90deg,#4aa8ff,#7cd4ff)}
-    .toggle input:checked:after{left:17px}
+  <meta name="description" content="몽베스트 · 삼다수 · 백산수 · 아이시스 · 스파클 등 생수 브랜드별 최저가를 한 번에 비교하고, 최저가 상품 상세 페이지로 바로 이동하세요." />
+  <link rel="canonical" href="https://mongbest.com/" />
+  <meta name="robots" content="index,follow" />
 
-    /* Hero */
-    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;margin-top:16px}
-    .panel{
-      background:linear-gradient(180deg, rgba(18,23,34,.9), rgba(18,23,34,.7));
-      border:1px solid var(--stroke);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)
-    }
-    .panel h1{margin:4px 0 8px;font-size:22px}
-    .muted{color:var(--muted);font-size:14px}
-    .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .badge{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--stroke);background:rgba(255,255,255,.03)}
-    .summary{
-      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px
-    }
-    .kpi{padding:12px;border:1px solid var(--stroke);border-radius:14px;background:rgba(255,255,255,.02);text-align:center}
-    .kpi .val{font-size:18px;font-weight:800}
-    .kpi .lab{font-size:12px;color:var(--muted)}
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="mongbest" />
+  <meta property="og:title" content="생수 최저가 비교 — mongbest" />
+  <meta property="og:description" content="생수 브랜드별 최저가를 실시간 비교하고, 상세 페이지로 바로 이동하세요." />
+  <meta property="og:url" content="https://mongbest.com/" />
+  <meta property="og:image" content="https://mongbest.com/assets/og-thumb.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-    /* Cards */
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
-    .card{background:var(--card);border:1px solid var(--stroke);border-radius:20px;padding:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
-    .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-    .mall{display:flex;align-items:center;gap:10px}
-    .mall-logo{width:28px;height:28px;border-radius:8px;background:#1e2636;display:grid;place-items:center;font-size:12px}
-    .mall-name{font-weight:700}
-    .price{font-size:22px;font-weight:900}
-    .pill{font-size:12px;color:#0b0e13;background:#c6f7e2;border-radius:999px;padding:4px 8px}
-    .warn{background:#fff0c2}
-    .ship{font-size:12px;color:var(--ok);display:flex;align-items:center;gap:6px}
-    .actions{display:flex;gap:8px}
-    .btn{
-      flex:1;padding:12px;border-radius:12px;border:1px solid var(--stroke);background:#1a2231;color:var(--text);font-weight:700
-    }
-    .btn.primary{background:linear-gradient(180deg,#4aa8ff,#3291ff);border:none}
-    .btn:active{transform:translateY(1px)}
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>💧</text></svg>">
 
-    .edit-wrap{display:none;gap:8px}
-    .edit-wrap input{
-      flex:1;padding:10px;border-radius:10px;border:1px solid var(--stroke);background:#0f1420;color:var(--text)
-    }
+  <link rel="stylesheet" href="style.css?v=8" />
 
-    .footer{
-      margin:22px 0 40px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap
-    }
-
-    /* Sticky bottom bar (mobile) */
-    .sticky{
-      position:sticky;bottom:0;z-index:40;
-      background:rgba(12,16,24,.85);
-      backdrop-filter:saturate(140%) blur(10px);
-      border-top:1px solid var(--stroke);
-      padding:10px 14px;
-      display:none; /* show on mobile */
-    }
-    .sticky .inner{max-width:1100px;margin:0 auto;display:flex;gap:8px}
-    .sticky .cta{flex:1;padding:14px;border-radius:12px;background:linear-gradient(180deg,#4aa8ff,#3291ff);border:none;font-weight:800}
-
-    /* Responsive – mobile first tweaks */
-    @media (max-width:960px){
-      .hero{grid-template-columns:1fr}
-      .summary{grid-template-columns:repeat(3,1fr)}
-      .grid{grid-template-columns:repeat(2,1fr)}
-    }
-    @media (max-width:680px){
-      .wrap{padding:12px}
-      .grid{grid-template-columns:1fr}
-      .summary{grid-template-columns:repeat(2,1fr)}
-      .price{font-size:20px}
-      .btn{padding:12px}
-      .sticky{display:block}
-      .panel h1{font-size:20px}
-    }
-
-    /* Nice focus states for accessibility */
-    .btn:focus-visible, .toggle:focus-within, .edit-wrap input:focus{
-      outline:2px solid #7cd4ff;outline-offset:2px
-    }
-  </style>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"mongbest",
+    "url":"https://mongbest.com/",
+    "description":"생수 브랜드 최저가 비교",
+    "inLanguage":"ko"
+  }
+  </script>
 </head>
 <body>
-  <!-- NAV -->
-  <div class="nav">
-    <div class="wrap nav-inner">
-      <div class="logo">
-        <div class="logo-badge" aria-hidden="true"></div>
-        <div>
-          <div class="brand">몽베스트 가격비교</div>
-          <div class="chip" id="lastUpdated">로딩중…</div>
-        </div>
-      </div>
-      <div class="tools">
-        <span class="chip">무료배송 표시 지원</span>
-        <label class="toggle" title="편집 모드">
-          <input id="editToggle" type="checkbox" />
-          <span>편집 모드</span>
-        </label>
-      </div>
+  <!-- 상단 광고/제휴 고지 (은은한 톤 + z-index로 항상 보이게) -->
+  <aside class="wrap" style="max-width:1100px; padding:10px 16px 0; position:relative; z-index:3;">
+    <div role="note" aria-label="제휴 고지"
+         style="font-size:13px; color:#8da2c0; background:rgba(12,20,32,0.65);
+                border:1px solid rgba(255,255,255,0.08); padding:10px 14px;
+                border-radius:8px; line-height:1.5;">
+      <strong style="color:#5bd4ff;">광고 고지</strong> · 본 사이트의 일부 링크는 제휴 링크이며,
+      <b>이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</b>
     </div>
-  </div>
+  </aside>
 
-  <main class="wrap">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="panel">
-        <h1>몽베스트 2L × 24개 최저가 한눈에</h1>
-        <p class="muted">쿠팡 · 다나와 · 11번가 · 네이버쇼핑 · G마켓 · SSG 등 주요 마켓 비교. <b>수동 업데이트</b> 버전이에요.</p>
-        <div class="badges">
-          <span class="badge">9:16 모바일 최적화</span>
-          <span class="badge">대형 터치버튼</span>
-          <span class="badge">저장: 브라우저 보관</span>
+  <!-- 배경 레이어 -->
+  <div class="hero-bg" aria-hidden="true"></div>
+
+  <header class="site-header" role="banner">
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="mongbest 메인으로">mongbest <span class="drop">💧</span></a>
+      <nav class="nav" role="navigation" aria-label="주요 메뉴">
+        <a href="#how">사용법</a>
+        <a href="#about">브랜드</a>
+        <a href="#legal">알림</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" role="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title">생수 <span class="highlight">브랜드별 최저가</span> 비교</h1>
+      <p class="sub">2L × 12 기준 · 배송비 포함 최종가 정렬 · <b>최저가 상품 상세 페이지</b>로 바로 이동</p>
+
+      <div class="controls" aria-label="비교 옵션">
+        <div class="row">
+          <div class="left">
+            <label class="switch">
+              <input id="includeShip" type="checkbox" checked aria-label="배송비 포함해서 비교">
+              <span>배송비 포함해서 비교</span>
+            </label>
+          </div>
+          <div class="right">
+            <input id="search" placeholder="브랜드 검색 (예: 삼다수, 몽베스트)" aria-label="브랜드 검색">
+            <button id="refresh" class="ghost" aria-label="새로고침">↻ 새로고침</button>
+          </div>
         </div>
-        <div class="summary">
-          <div class="kpi">
-            <div class="val" id="kpiBest">-</div>
-            <div class="lab">최저가</div>
-          </div>
-          <div class="kpi">
-            <div class="val" id="kpiAvg">-</div>
-            <div class="lab">평균가</div>
-          </div>
-          <div class="kpi">
-            <div class="val" id="kpiFreeShip">-</div>
-            <div class="lab">무료배송 개수</div>
-          </div>
+        <div class="meta" role="status" aria-live="polite">
+          <div>기준 규격: <b id="variant">2L × 12</b></div>
+          <div>업데이트: <b id="updated">-</b></div>
         </div>
-      </div>
-      <div class="panel">
-        <h1>업데이트 방법 (초간단)</h1>
-        <ol class="muted" style="margin:0;padding-left:18px;line-height:1.6">
-          <li>오른쪽 위 <b>편집 모드</b> ON</li>
-          <li>각 카드에서 <b>가격/링크/무료배송</b> 수정</li>
-          <li><b>저장</b> 클릭 → 즉시 반영 + 브라우저에 보관</li>
-          <li>초기화는 아래 <b>데이터 초기화</b> 버튼</li>
-        </ol>
       </div>
     </section>
 
-    <!-- CARDS -->
-    <section class="grid" id="cards"></section>
+    <!-- 카드 그리드 -->
+    <section class="grid" id="brandGrid" aria-label="브랜드별 최저가 카드"></section>
 
-    <div class="footer">
-      <div>※ 본 페이지는 수동 데이터 기준입니다. 자동화 연결 예정.</div>
-      <div>
-        <button class="chip" id="resetBtn" title="브라우저에 저장된 수동 데이터를 초기화합니다.">데이터 초기화</button>
-      </div>
-    </div>
+    <section id="how" class="how" aria-labelledby="how-title">
+      <h2 id="how-title">사용법</h2>
+      <ol>
+        <li>기본 정렬은 <b>상품가 + 배송비</b> 입니다.</li>
+        <li>큰 파란 <b>구매하러 가기</b> 버튼은 제휴 링크(쿠팡 등)로 새 창에서 열립니다.</li>
+        <li>아래 <b>원 판매처 상세보기</b> 링크로 실제 상세 페이지를 확인할 수 있습니다.</li>
+        <li>가격이 이상하면 새로고침(↻) 하세요.</li>
+      </ol>
+    </section>
+
+    <section id="about" class="about" aria-labelledby="brand-title">
+      <h2 id="brand-title">포함 브랜드</h2>
+      <p>몽베스트, 삼다수, 백산수, 아이시스, 스파클, 크리스탈가이저</p>
+    </section>
+
+    <section id="legal" class="legal" aria-labelledby="legal-title">
+      <h2 id="legal-title">알림</h2>
+      <ul>
+        <li>사이트 구조 변경/차단으로 일부 누락될 수 있습니다.</li>
+        <li>정확도를 위해 <b>공식 제휴 API</b> 전환을 권장합니다.</li>
+        <li><b>이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</b></li>
+      </ul>
+    </section>
   </main>
 
-  <!-- Sticky CTA (mobile) -->
-  <div class="sticky">
-    <div class="inner">
-      <button class="cta" id="goBest">최저가로 바로가기</button>
-      <button class="cta" style="background:linear-gradient(180deg,#19c37d,#10b070)" id="shareBtn">공유</button>
+  <footer class="site-footer" role="contentinfo">
+    <div class="wrap">
+      <small>© <span id="year"></span> mongbest.com</small>
+      <small class="muted" style="margin-left:16px">
+        제휴 고지: 본 사이트의 일부 링크는 제휴 링크이며, 구매 시 수수료가 발생할 수 있습니다.
+      </small>
     </div>
-  </div>
+  </footer>
 
+  <!-- 데이터 & 앱 스크립트 -->
+  <script src="data/prices.js?v=3"></script>
+  <script src="app.js?v=3"></script>
+
+  <!-- 제휴 도메인 보안/표기 -->
   <script>
-    // ---------- 데이터 (초깃값) ----------
-    const DEFAULT_DATA = [
-      { id:"coupang", mall:"쿠팡", logo:"C", price: 18900, freeShip:true, url:"https://www.coupang.com/", note:"와우 전용 할인" },
-      { id:"danawa", mall:"다나와", logo:"D", price: 19500, freeShip:false, url:"https://www.danawa.com/", note:"포인트 적립" },
-      { id:"11st",   mall:"11번가", logo:"11", price: 19900, freeShip:true, url:"https://www.11st.co.kr/", note:"행사쿠폰" },
-      { id:"naver",  mall:"네이버", logo:"N", price: 19200, freeShip:false, url:"https://shopping.naver.com/", note:"스마트스토어" },
-      { id:"gmarket",mall:"G마켓", logo:"G", price: 19800, freeShip:true, url:"https://www.gmarket.co.kr/", note:"스마일캐시" },
-      { id:"ssg",    mall:"SSG",   logo:"S", price: 20500, freeShip:false, url:"https://www.ssg.com/", note:"쓱페이 할인" },
-    ];
-    const LS_KEY = "mongbest_manual_prices_v1";
-    const LS_TS  = "mongbest_manual_updated_at";
-
-    // ---------- Util ----------
-    const fmt = n => n?.toLocaleString("ko-KR")+"원";
-    const $ = (sel, el=document) => el.querySelector(sel);
-    const $$ = (sel, el=document) => [...el.querySelectorAll(sel)];
-
-    function loadData(){
-      const raw = localStorage.getItem(LS_KEY);
-      try{
-        const data = raw ? JSON.parse(raw) : DEFAULT_DATA;
-        return data.map(x=>({...x, price:Number(x.price)}));
-      }catch(e){ return DEFAULT_DATA; }
-    }
-    function saveData(data){
-      localStorage.setItem(LS_KEY, JSON.stringify(data));
-      localStorage.setItem(LS_TS, new Date().toISOString());
-      render();
-    }
-    function lastUpdatedText(){
-      const ts = localStorage.getItem(LS_TS);
-      if(!ts) return "처음 설정값 (저장 전)";
-      const d = new Date(ts);
-      return `마지막 저장: ${d.toLocaleString("ko-KR")}`;
-    }
-
-    // ---------- 렌더링 ----------
-    function render(){
-      const data = loadData();
-      // KPI
-      const prices = data.map(d=>d.price).filter(Boolean);
-      const best = Math.min(...prices);
-      const avg = Math.round(prices.reduce((a,b)=>a+b,0)/prices.length);
-      const freeCount = data.filter(d=>d.freeShip).length;
-      $("#kpiBest").textContent = fmt(best);
-      $("#kpiAvg").textContent = fmt(avg);
-      $("#kpiFreeShip").textContent = freeCount+"곳";
-      $("#lastUpdated").textContent = lastUpdatedText();
-
-      // Cards
-      const cardsEl = $("#cards");
-      cardsEl.innerHTML = "";
-      // 정렬: 가격 오름차순
-      data.sort((a,b)=>a.price-b.price).forEach(item=>{
-        const isBest = item.price === best;
-        const card = document.createElement("article");
-        card.className = "card";
-        card.innerHTML = `
-          <div class="row">
-            <div class="mall">
-              <div class="mall-logo" aria-hidden="true">${item.logo}</div>
-              <div class="mall-name">${item.mall}</div>
-            </div>
-            ${isBest ? `<span class="pill">최저가</span>`:""}
-          </div>
-
-          <div class="row">
-            <div class="price">${fmt(item.price)}</div>
-            <div class="ship">${item.freeShip ? "🚚 무료배송" : ""}</div>
-          </div>
-
-          <div class="muted">${item.note ?? ""}</div>
-
-          <div class="actions">
-            <a class="btn" href="${item.url}" target="_blank" rel="noopener">상세보기</a>
-            <a class="btn primary" href="${item.url}" target="_blank" rel="noopener">구매하러 가기</a>
-          </div>
-
-          <div class="edit-wrap">
-            <input type="number" step="100" min="0" placeholder="가격(원)" value="${item.price}" data-field="price" />
-            <input type="url" placeholder="구매 링크" value="${item.url}" data-field="url" />
-            <label class="chip" style="display:inline-flex;align-items:center;gap:8px">
-              <input type="checkbox" ${item.freeShip ? "checked":""} data-field="freeShip" /> 무료배송
-            </label>
-            <input type="text" placeholder="메모/혜택" value="${item.note ?? ""}" data-field="note" />
-            <div class="actions">
-              <button class="btn" data-action="cancel">취소</button>
-              <button class="btn primary" data-action="save">저장</button>
-            </div>
-          </div>
-        `;
-        // 버튼 동작
-        const editWrap = $(".edit-wrap", card);
-        // 편집 모드 토글 반영
-        const editMode = $("#editToggle").checked;
-        editWrap.style.display = editMode ? "grid" : "none";
-
-        // 저장/취소
-        const onAction = (e)=>{
-          const act = e.target?.dataset?.action;
-          if(!act) return;
-          if(act==="cancel"){ render(); return; }
-          if(act==="save"){
-            const fields = $$("[data-field]", editWrap);
-            const upd = {...item};
-            fields.forEach(f=>{
-              const key = f.dataset.field;
-              if(key==="freeShip") upd[key] = f.checked;
-              else if(key==="price") upd[key] = Number(f.value||0);
-              else upd[key] = f.value?.trim();
-            });
-            // 원본 데이터 갱신
-            const all = loadData().map(x=> x.id===item.id ? upd : x);
-            saveData(all);
-          }
-        };
-        editWrap.addEventListener("click", onAction);
-        cardsEl.appendChild(card);
-      });
-
-      // 최저가 바로가기 (모바일 하단)
-      const bestItem = loadData().sort((a,b)=>a.price-b.price)[0];
-      $("#goBest").onclick = ()=> window.open(bestItem.url, "_blank","noopener");
-    }
-
-    // ---------- 이벤트 ----------
-    $("#editToggle").addEventListener("change", ()=>{
-      const on = $("#editToggle").checked;
-      $$(".edit-wrap").forEach(el=> el.style.display = on ? "grid" : "none");
-    });
-
-    $("#resetBtn").addEventListener("click", ()=>{
-      if(confirm("저장된 수동 데이터를 초기화할까요?")){
-        localStorage.removeItem(LS_KEY);
-        localStorage.removeItem(LS_TS);
-        render();
+  (function(){
+    const AFFIL_DOMAINS = ['link.coupang.com'];
+    const isAffil = (u) => { try { return AFFIL_DOMAINS.some(d => new URL(u).hostname.endsWith(d)); } catch(e){ return false; } };
+    for (const a of document.querySelectorAll('a[href]')) {
+      const href = a.getAttribute('href');
+      if (isAffil(href)) {
+        const rel = new Set((a.getAttribute('rel')||'').split(/\s+/).filter(Boolean));
+        ['sponsored','nofollow','noopener'].forEach(x=> rel.add(x));
+        a.setAttribute('rel', Array.from(rel).join(' '));
       }
-    });
-
-    $("#shareBtn").addEventListener("click", async ()=>{
-      const url = location.href;
-      const text = "몽베스트 가격 비교 링크 공유합니다 🙌";
-      try{
-        if(navigator.share){
-          await navigator.share({title:document.title, text, url});
-        }else{
-          await navigator.clipboard.writeText(url);
-          alert("링크를 복사했어요. 붙여넣기 해서 공유하세요!");
-        }
-      }catch(e){}
-    });
-
-    // 최초 렌더
-    (function init(){
-      // 첫 저장시각 없으면 기본 텍스트
-      if(!localStorage.getItem(LS_TS)){
-        $("#lastUpdated").textContent = "처음 설정값 (저장 전)";
-      }
-      render();
-    })();
+      a.setAttribute('target','_blank');
+    }
+    const y = document.querySelector('#year');
+    if (y) y.textContent = new Date().getFullYear();
+  })();
   </script>
+
+  <noscript>이 사이트는 자바스크립트가 필요합니다.</noscript>
 </body>
 </html>
