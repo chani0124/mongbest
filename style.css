@@ -1,292 +1,238 @@
-
-/* mongbest style.css — tuned v2
-   - Elegant dark background (image-free)
-   - Mobile-first readability
-   - Card/grid/buttons/inputs unified
-   - Numeric alignment for prices
-*/
-
-/* ====================
-   0) Design tokens
-   ==================== */
-:root{
-  --bg:#0b1220;
-  --surface:#0e1626;
-  --panel:#111827;
-  --panel-2:#0f1b2e;
-  --text:#e7eaf1;
-  --text-dim:#a8b3c7;
-  --accent:#60a5fa; /* sky-400 */
-  --accent-2:#34d399; /* emerald-400 */
-  --accent-3:#a78bfa; /* violet-400 */
-  --danger:#f87171;
-  --ok:#4ade80;
-  --border: rgba(255,255,255,.10);
-  --border-2: rgba(255,255,255,.06);
-  --ring: rgba(96,165,250,.35);
-  --shadow: 0 10px 30px rgba(0,0,0,.35);
-  --radius: 16px;
-  --radius-sm: 12px;
-  --radius-lg: 20px;
+:root {
+  --bg: #06080d;
+  --panel: #0b0f18;
+  --text: #eaf1ff;
+  --muted: #8da2c0;
+  --border: #122032;
+  --accent: #5bd4ff;
+  --accent-2: #37b6ff;
+  --good: #28e0b9;
+  --brand: #9ad7ff;
 }
 
-/* ====================
-   1) Base
-   ==================== */
-*{ box-sizing: border-box; }
-html,body{ min-height:100%; }
-html{ -webkit-text-size-adjust:100%; }
-body{
-  margin:0;
-  color:var(--text);
-  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-  line-height:1.5;
-  letter-spacing:.2px;
+/* reset */
+* {
+  box-sizing: border-box;
+}
 
-  /* layered background */
+html, body {
+  margin: 0;
+  padding: 0;
   background: var(--bg);
-  background-image:
-    radial-gradient(1200px 800px at 10% -10%, rgba(59,130,246,.10), transparent 60%),
-    radial-gradient(900px 600px at 90% 10%, rgba(16,185,129,.10), transparent 55%),
-    radial-gradient(1200px 700px at 50% 120%, rgba(139,92,246,.10), transparent 60%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' /></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.03'/></svg>");
-  background-blend-mode: screen, screen, screen, normal;
-  background-size: 100% 100%, 100% 100%, 100% 100%, 300px 300px;
-  background-attachment: fixed, fixed, fixed, fixed;
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', Segoe UI, Roboto, sans-serif;
 }
 
-/* Typography */
-h1,h2,h3{ margin: 0 0 .6rem 0; line-height:1.25; }
-h1{ font-size: clamp(24px, 3vw, 34px); letter-spacing:.3px; }
-h2{ font-size: clamp(18px, 2.2vw, 24px); color:var(--text); }
-p{ color:var(--text-dim); margin:.3rem 0 .9rem; }
-small, .muted{ color:var(--text-dim); font-size:.9rem; }
-
-/* Layout helpers */
-.container{ max-width: 1200px; margin: 0 auto; padding: 16px; }
-.section{ margin: 18px 0 24px; }
-.grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
-}
-@media (min-width: 1280px){
-  .container{ padding: 20px; }
-  .grid{ gap: 18px; }
+/* 배경 이미지 */
+.hero-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: 
+    linear-gradient(180deg, rgba(6, 8, 13, .55), rgba(6, 8, 13, .3)),
+    url("assets/hero-bg.png") center/cover no-repeat;
 }
 
-/* ====================
-   2) Cards / Panels
-   ==================== */
-.card, .panel{
-  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.00));
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+/* 공통 wrapper */
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
   padding: 16px;
-  box-shadow: 0 0 0 rgba(0,0,0,0);
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
 }
-.card:hover{
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-  border-color: rgba(255,255,255,.14);
-}
-.card .header{
-  display:flex; align-items:center; justify-content:space-between;
-  margin-bottom: 10px;
-}
-.card .title{ font-weight:700; color:#fff; }
-.card .meta{ color:var(--text-dim); font-size:.92rem; }
 
-/* ====================
-   3) Inputs / Controls
-   ==================== */
-.input, input[type="text"], input[type="search"], select{
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: var(--panel);
-  border: 1px solid var(--border-2);
+/* 상단 헤더 */
+.site-header {
+  background: rgba(8, 12, 20, .6);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  font-weight: 900;
+  text-decoration: none;
   color: var(--text);
-  outline: none;
-  transition: border-color .14s ease, box-shadow .14s ease;
+  letter-spacing: .4px;
 }
-.input::placeholder{ color:#8b98ad; }
-.input:focus, input[type="text"]:focus, input[type="search"]:focus, select:focus{
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px var(--ring);
+.brand .drop {
+  filter: drop-shadow(0 0 8px rgba(91, 212, 255, .6));
 }
-
-/* Toggle/checkbox prettify (for '배송비 포함해서 비교') */
-.checkbox{
-  --s: 22px;
-  position: relative;
-  width: calc(var(--s)*2);
-  height: var(--s);
-  appearance:none; outline:none; cursor:pointer;
-  background: var(--panel);
-  border:1px solid var(--border);
-  border-radius: var(--s);
-  transition: background .18s ease, border-color .18s ease;
-  vertical-align: middle;
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+  margin-left: 14px;
 }
-.checkbox:after{
-  content:""; position:absolute; top:2px; left:2px;
-  width: calc(var(--s) - 4px); height: calc(var(--s) - 4px);
-  background:#fff; border-radius: 50%;
-  transition: transform .18s ease;
-}
-.checkbox:checked{
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  border-color: transparent;
-}
-.checkbox:checked:after{ transform: translateX(calc(var(--s))); }
-
-/* ====================
-   4) Badges / Chips
-   ==================== */
-.badge{
-  display:inline-flex; align-items:center; gap:6px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border:1px solid var(--border);
-  background: rgba(255,255,255,.04);
+.nav a:hover {
   color: var(--text);
-  font-size:.86rem; font-weight:600;
 }
-.badge.accent{ border-color: rgba(96,165,250,.35); background: rgba(96,165,250,.12); }
-.badge.ok{ border-color: rgba(74,222,128,.35); background: rgba(74,222,128,.12); }
-.badge.danger{ border-color: rgba(248,113,113,.35); background: rgba(248,113,113,.12); }
 
-/* ====================
-   5) Buttons
-   ==================== */
-.btn{
-  display:inline-flex; align-items:center; justify-content:center;
-  gap:8px;
-  padding: 12px 14px;
-  border-radius: 12px;
+/* hero 제목 */
+.hero {
+  padding: 26px 0 10px;
+}
+.hero h1 {
+  font-size: 34px;
+  margin: 0 0 6px;
+}
+.hero .highlight {
+  color: var(--accent);
+}
+.hero .sub {
+  color: var(--muted);
+  margin: 0;
+}
+
+/* 컨트롤 영역 */
+.controls {
+  background: linear-gradient(180deg, rgba(12, 20, 32, .8), rgba(10, 16, 26, .7));
   border: 1px solid var(--border);
-  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.00));
-  color: #fff;
-  font-weight:700;
-  text-decoration:none;
-  transition: transform .08s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
-  user-select:none;
+  padding: 16px;
+  border-radius: 16px;
+  margin: 18px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
 }
-.btn:hover{ box-shadow: var(--shadow); border-color: rgba(255,255,255,.16); transform: translateY(-1px); }
-.btn:active{ transform: translateY(0); }
-.btn-primary{
-  background: linear-gradient(180deg, rgba(96,165,250,.25), rgba(96,165,250,.08));
-  border-color: rgba(96,165,250,.45);
+.controls .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
-.btn-primary:hover{
-  background: linear-gradient(180deg, rgba(96,165,250,.35), rgba(96,165,250,.14));
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.btn-ghost{
-  background: transparent; border-color: var(--border);
+.switch input {
+  width: 18px;
+  height: 18px;
+}
+.controls .meta {
+  display: flex;
+  gap: 18px;
+  margin-top: 10px;
+  color: var(--muted);
+}
+#search {
+  background: #0c1524;
+  border: 1px solid var(--border);
   color: var(--text);
-}
-
-/* ====================
-   6) Price blocks
-   ==================== */
-.price, .price-row{
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-  padding: 10px 0;
-  border-top:1px dashed var(--border-2);
-}
-.price:first-child, .price-row:first-child{ border-top:none; }
-.price .label{ color: var(--text-dim); }
-.price .value{
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1, "ss01" 1;
-  font-weight: 800;
-  letter-spacing: .2px;
-  font-size: clamp(18px, 2.6vw, 22px);
-}
-.price .value.final{ color: var(--ok); }
-.price .value.high{ color: var(--danger); }
-.price .ship{ color: var(--text-dim); font-size:.95rem; }
-
-/* ====================
-   7) Tables (if any)
-   ==================== */
-table{ width:100%; border-collapse: collapse; }
-th, td{
-  padding: 10px 8px;
-  border-bottom: 1px solid var(--border-2);
-  text-align:left;
-}
-th{ color:#cfd7e6; font-weight:700; }
-td{ color:var(--text); }
-td.num{ text-align:right; font-variant-numeric: tabular-nums; }
-
-/* ====================
-   8) Top notice / toolbar
-   ==================== */
-.notice{
-  background: linear-gradient(90deg, rgba(96,165,250,.15), rgba(167,139,250,.15));
-  border:1px solid rgba(255,255,255,.12);
-  border-radius: var(--radius-sm);
   padding: 10px 12px;
-  color: #dbe7ff;
+  border-radius: 12px;
+  min-width: 240px;
+  outline: none;
 }
-.toolbar{
-  display:flex; flex-wrap:wrap; gap:10px;
-  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00));
-  border:1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px;
-}
-
-/* ====================
-   9) Links
-   ==================== */
-a{ color: var(--accent); text-decoration: none; }
-a:hover{ text-decoration: underline; text-underline-offset: 2px; }
-
-/* ====================
-   10) Footer / Subtle
-   ==================== */
-.footer{ margin: 24px 0 40px; color: var(--text-dim); font-size:.92rem; }
-.hr{ height:1px; background: var(--border-2); border:none; margin:12px 0; }
-
-/* ====================
-   11) Mobile polish
-   ==================== */
-@media (max-width: 768px){
-  .container{ padding: 14px; }
-  .card{ border-radius: 14px; padding:14px; }
-  .grid{ gap: 12px; grid-template-columns: 1fr; }
-  .toolbar{ padding:10px; gap:8px; }
-  h1{ font-size: 22px; }
-  .btn{ width:100%; }
+.ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
 }
 
-/* ====================
-   12) Reduced motion (accessibility)
-   ==================== */
-@media (prefers-reduced-motion: reduce){
-  *{ transition:none !important; animation:none !important; }
+/* 카드 그리드 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 10px 0 28px;
 }
-
-/* ====================
-   13) Optional: light theme (future toggle)
-   ==================== */
-@media (prefers-color-scheme: light){
-  :root{
-    --bg:#f6f8fb;
-    --surface:#ffffff;
-    --panel:#f0f3f9;
-    --panel-2:#ffffff;
-    --text:#0c1424;
-    --text-dim:#4b566b;
-    --border: rgba(0,0,0,.08);
-    --border-2: rgba(0,0,0,.06);
-    --ring: rgba(59,130,246,.25);
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
   }
-  body{ color:var(--text); }
-  .card,.panel{ background: #fff; }
-  .notice{ color:#21304b; }
+}
+
+/* 카드 디자인 */
+.card {
+  background: linear-gradient(180deg, rgba(12, 17, 27, .9), rgba(9, 14, 22, .85));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .25);
+}
+.card .head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.card .brandname {
+  font-weight: 800;
+}
+.card .updated {
+  color: var(--muted);
+  font-size: 13px;
+}
+.card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.card th, .card td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  font-size: 15px;
+}
+.card th {
+  color: var(--muted);
+  font-weight: 600;
+}
+.card .final {
+  font-weight: 800;
+  color: var(--good);
+}
+.card .buy .btn {
+  display: inline-block;
+  padding: 9px 13px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #001018;
+  text-decoration: none;
+  font-weight: 900;
+  text-align: center;
+}
+.card .buy .btn:hover {
+  filter: brightness(1.05);
+}
+
+/* 테이블 래퍼 */
+.table-wrap {
+  overflow: auto;
+}
+
+/* 푸터 */
+.site-footer {
+  border-top: 1px solid rgba(255, 255, 255, .06);
+  margin-top: 26px;
+  background: rgba(8, 12, 20, .6);
+  backdrop-filter: blur(8px);
+}
+.site-footer .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.muted {
+  color: var(--muted);
+}
+
+/* 광고 고지 */
+.notice {
+  font-size: 13px;
+  color: #8da2c0;
+  text-align: center;
+  padding: 10px;
+  background: rgba(12, 20, 32, .7);
+  border-top: 1px solid var(--border);
+}
+.notice strong {
+  color: var(--accent);
 }
