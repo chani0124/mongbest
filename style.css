@@ -19,13 +19,22 @@ html, body {
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
 }
 
-/* 배경 이미지 */
-.hero-bg {
-  position: fixed; inset: 0; z-index: -1;
+/* 배경 레이어 – 퍼플 톤+하이라이트로 덜 밋밋하게 */
+.hero-bg{
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   background:
-    linear-gradient(180deg, rgba(6,8,13,.55), rgba(6,8,13,.3)),
+    /* 좌상단 은은한 하이라이트 */
+    radial-gradient(800px 400px at 12% 0%, rgba(187, 148, 255, 0.10) 0%, rgba(187, 148, 255, 0) 60%),
+    /* 전체 그라데이션(위는 살짝 밝게, 아래로 갈수록 진하게) */
+    linear-gradient(180deg, rgba(14,18,28,0.92) 0%, rgba(10,14,22,0.95) 40%, rgba(6,8,13,1) 100%),
+    /* 기존 배경 이미지(있으면 자동 사용됨) */
     url("assets/hero-bg.png") center/cover no-repeat;
+  /* 살짝 쨍하게 */
+  filter: saturate(106%) contrast(104%);
 }
+
 
 /* 공통 wrapper */
 .wrap { max-width: 1100px; margin: 0 auto; padding: 16px; }
